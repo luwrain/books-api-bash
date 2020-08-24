@@ -1,0 +1,25 @@
+#!/bin/bash -e
+# Copyright 2020 Michael Pozhidaev <msp@luwrain.org>
+# The LUWRAIN Project, Licensed under the Apache License, Version 2.0
+
+. ./lwr-books-init
+
+if [ "$1" == '--help' ]; then
+cat <<EOF
+$THIS: Confirming the user mail address
+Usage:
+  $THIS MAIL CONFIRMATION_CODE
+
+The confirmation code must be taken from the message which the service sends 
+on user registration. The number of attempts is limited. If you exceed the limit, the mail address will be released 
+for new registrations.
+EOF
+    exit 0
+fi
+
+[ -z "$1" ] && echo "$THIS: No mail address" >&2 && exit 1
+[ -z "$2" ] && echo "$THIS: No confirmation code" >&2 && exit 1
+MAIL="$1"
+CODE="$2"
+
+exec curl -X GET --get --data-urlencode "mail=$MAIL" --data-urlencode  "code=$CODE" $BASE_URL/user/confirm/

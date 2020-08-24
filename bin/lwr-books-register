@@ -1,0 +1,24 @@
+#!/bin/bash -e
+# Copyright 2020 Michael Pozhidaev <msp@luwrain.org>
+# The LUWRAIN Project, Licensed under the Apache License, Version 2.0
+
+. ./lwr-books-init
+
+if [ "$1" == '--help' ]; then
+cat <<EOF
+$THIS: Registering a user on LUWRAIN Books
+Usage:
+  $THIS MAIL PASSWORD
+
+The mail address and the password are mandatory arguments. To finish the registration  
+you need to run lwr-books-user-confirm with the confirmation code which should be sent to the specified mail address.
+EOF
+    exit 0
+fi
+
+[ -z "$1" ] && echo "$THIS: No mail address" >&2 && exit 1
+[ -z "$2" ] && echo "$THIS: No password" >&2 && exit 1
+MAIL="$1"
+PASSWD="$2"
+
+exec curl -X POST --data-urlencode "mail=$MAIL" --data-urlencode  "passwd=$PASSWD" $BASE_URL/user/register/
