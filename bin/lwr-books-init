@@ -1,0 +1,22 @@
+# Copyright 2020 Michael Pozhidaev <msp@luwrain.org>
+# The LUWRAIN Project, Licensed under the Apache License, Version 2.0
+
+THIS="${0##*/}"
+
+BASE_URL='http://books.luwrain.org/v1'
+PROFILE_DIR=~/.lwr-books
+ACCESS_TOKEN_FILE=$PROFILE_DIR/atoken
+RC_FILE=$PROFILE_DIR/rc
+
+if [ -e "$PROFILE_DIR" ] && ! [ -d "$PROFILE_DIR" ]; then
+    echo "$THIS: $PROFILE_DIR exists and is not a directory" >&2
+    exit 1
+fi
+
+if ! [ -e "$PROFILE_DIR" ]; then
+    mkdir -p "$PROFILE_DIR"
+fi
+
+if [ -f "$ACCESS_TOKEN_FILE" ] && [ -r "$ACCESS_TOKEN_FILE" ]; then
+    ATOKEN="$(cat "$ACCESS_TOKEN_FILE")"
+fi

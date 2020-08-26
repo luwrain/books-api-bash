@@ -2,7 +2,7 @@
 # Copyright 2020 Michael Pozhidaev <msp@luwrain.org>
 # The LUWRAIN Project, Licensed under the Apache License, Version 2.0
 
-. ./lwr-books-init
+. lwr-books-init
 
 if [ "$1" == '--help' ]; then
 cat <<EOF
