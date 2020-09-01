@@ -22,4 +22,4 @@ fi
 MAIL="$1"
 CODE="$2"
 
-exec curl -X GET --get --data-urlencode "mail=$MAIL" --data-urlencode  "code=$CODE" $BASE_URL/user/confirm/
+exec curl -s -X GET --get --data-urlencode "mail=$MAIL" --data-urlencode  "code=$CODE" $BASE_URL/user/confirm/

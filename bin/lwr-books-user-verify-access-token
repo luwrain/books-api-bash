@@ -1,0 +1,27 @@
+#!/bin/bash -e
+# Copyright 2020 Michael Pozhidaev <msp@luwrain.org>
+# The LUWRAIN Project, Licensed under the Apache License, Version 2.0
+
+. lwr-books-init
+
+if [ "$1" == '--help' ]; then
+cat <<EOF
+$THIS: Checking the access token validity
+Usage:
+  $THIS [ATOKEN]
+
+If the given access token is valid, this utility prints the associated mail address. The token value
+can be omitted, in this case the value from $ACCESS_TOKEN_FILE will be used.
+EOF
+    exit 0
+fi
+
+VALUE="$1"
+
+if [ -z "$VALUE" ]; then
+    VALUE="$ATOKEN"
+    fi
+
+[ -z "$VALUE" ] && echo "$THIS: No access token neither in the command line, nor in $ACCESS_TOKEN_FILE" >&2 && exit 1
+
+exec curl -s -X GET --get --data-urlencode "atoken=$VALUE" $BASE_URL/user/verify-atoken/

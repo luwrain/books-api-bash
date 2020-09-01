@@ -3,7 +3,7 @@
 
 THIS="${0##*/}"
 
-BASE_URL='http://books.luwrain.org/v1'
+BASE_URL='https://books.luwrain.org/v1'
 PROFILE_DIR=~/.lwr-books
 ACCESS_TOKEN_FILE=$PROFILE_DIR/atoken
 RC_FILE=$PROFILE_DIR/rc
@@ -20,3 +20,8 @@ fi
 if [ -f "$ACCESS_TOKEN_FILE" ] && [ -r "$ACCESS_TOKEN_FILE" ]; then
     ATOKEN="$(cat "$ACCESS_TOKEN_FILE")"
 fi
+
+if [ -f "$RC_FILE" ] && [ -r "$RC_FILE" ]; then
+    . "$RC_FILE"
+fi
+

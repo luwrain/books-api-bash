@@ -6,12 +6,12 @@
 
 if [ "$1" == '--help' ]; then
 cat <<EOF
-$THIS: Registering a user on LUWRAIN Books
+$THIS: Obtaining an access token for operations
 Usage:
   $THIS MAIL PASSWORD
 
-The mail address and the password are mandatory arguments. To finish the registration  
-you need to run lwr-books-user-confirm with the confirmation code which should be sent to the specified mail address.
+The mail address and the password are mandatory arguments. Besides usual sending the response to stdout,
+this utility saves the obtained access token in $ACCESS_TOKEN_FILE for further operations.
 EOF
     exit 0
 fi
@@ -21,4 +21,4 @@ fi
 MAIL="$1"
 PASSWD="$2"
 
-exec curl -X POST --data-urlencode "mail=$MAIL" --data-urlencode  "passwd=$PASSWD" $BASE_URL/user/register/
+exec curl -s -X POST --data-urlencode "mail=$MAIL" --data-urlencode  "passwd=$PASSWD" $BASE_URL/user/atoken/
