@@ -1,0 +1,34 @@
+#!/bin/bash -e
+# Copyright 2020 Michael Pozhidaev <msp@luwrain.org>
+# The LUWRAIN Project, Licensed under the Apache License, Version 2.0
+
+. lwr-books-init
+
+if [ "$1" == '--help' ]; then
+cat <<EOF
+$THIS: Uploading a document file for further construction of an audiobook
+Usage:
+  $THIS FILE
+
+The file can be either a document file or a ZIP-archive with a set of document files. On success 
+this utility returns the IDs of the source files saved in your account for further processing.
+EOF
+    exit 0
+fi
+
+[ -z "$1" ] && echo "$THIS: No file to upload" >&2 && exit 1
+FILE="$1"
+
+check_atoken
+
+RES="$(curl -s -X GET --get --data-urlencode "atoken=$ATOKEN" $BASE_URL/source/upload/)"
+
+if ! echo "$RES" | fgrep -q '"type":"OK"'; then
+    echo "$RES"
+    exit 1
+fi
+
+RES="${RES##*upload\":\"}"
+RES="${RES%\"\}}"
+
+exec curl -X POST -F "data=@$FILE" "$RES" 

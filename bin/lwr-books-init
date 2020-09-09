@@ -25,3 +25,10 @@ if [ -f "$RC_FILE" ] && [ -r "$RC_FILE" ]; then
     . "$RC_FILE"
 fi
 
+check_atoken()
+{
+    if [ -z "$ATOKEN" ]; then
+        echo "$THIS: No saved access token, please run lwr-books-user-access-token and try again" >&2
+        exit 1
+    fi
+}
