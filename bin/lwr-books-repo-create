@@ -1,0 +1,25 @@
+#!/bin/bash -e
+# Copyright 2020 Michael Pozhidaev <msp@luwrain.org>
+# The LUWRAIN Project, Licensed under the Apache License, Version 2.0
+
+. lwr-books-init
+
+if [ "$1" == '--help' ]; then
+cat <<EOF
+$THIS: Creating a new audiobook in the repository
+Usage:
+  $THIS (no arguments)
+
+Adds a new audiobook in the repository. After the creation you should 
+feel the audiobook content either by uploading the audio files or by using
+the files from some task. You should set the tags values as well.
+
+Please note that some operations create a book in the repository automatically, you shouldn't 
+explicitly create it with them.
+EOF
+    exit 0
+fi
+
+check_atoken
+
+exec curl -s -X GET --get --data-urlencode "atoken=$ATOKEN" $BASE_URL/repo/create/

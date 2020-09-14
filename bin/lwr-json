@@ -1,0 +1,21 @@
+#!/bin/bash -e
+# Copyright 2020 Michael Pozhidaev <msp@luwrain.org>
+# The LUWRAIN Project, Licensed under the Apache License, Version 2.0
+
+if [ "$1" == '--help' ]; then
+    cat <<EOF
+lwr-json: Simplifying JSON output
+
+You can put the output of lwr-books-... utilities through lwr-json to decode 
+JSON data and make it more readable. Please note that this utility obscures some character, so it is not intended
+to be used somehow in production scripts implying high level of reliability.
+lwr-json uses the jq utility, please ensure you have installed it in your system.
+EOF
+    exit 0
+fi
+
+jq . |
+    egrep -v '^ *[{}\] *$' | egrep -v '^ *] *$' |
+    sed -e s/'"'//g |
+    sed -e s/'\[$'//g |
+    sed -e s/'^ *},$'//g

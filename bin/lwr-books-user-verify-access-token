@@ -24,4 +24,4 @@ if [ -z "$VALUE" ]; then
 
 [ -z "$VALUE" ] && echo "$THIS: No access token neither in the command line, nor in $ACCESS_TOKEN_FILE" >&2 && exit 1
 
-exec curl -s -X GET --get --data-urlencode "atoken=$VALUE" $BASE_URL/user/verify-atoken/
+exec curl -s -X GET --get --data-urlencode "atoken=$VALUE" $BASE_URL/user/atoken/verify/

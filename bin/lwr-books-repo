@@ -1,0 +1,20 @@
+#!/bin/bash -e
+# Copyright 2020 Michael Pozhidaev <msp@luwrain.org>
+# The LUWRAIN Project, Licensed under the Apache License, Version 2.0
+
+. lwr-books-init
+
+if [ "$1" == '--help' ]; then
+cat <<EOF
+$THIS: Prints books in the repository
+Usage:
+  $THIS (no arguments)
+
+This utility shows the all books in the repository owned by the current user.
+EOF
+    exit 0
+fi
+
+check_atoken
+
+exec curl -s -X GET --get --data-urlencode "atoken=$ATOKEN" $BASE_URL/repo/

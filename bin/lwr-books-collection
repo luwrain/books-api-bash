@@ -1,0 +1,20 @@
+#!/bin/bash -e
+# Copyright 2020 Michael Pozhidaev <msp@luwrain.org>
+# The LUWRAIN Project, Licensed under the Apache License, Version 2.0
+
+. lwr-books-init
+
+if [ "$1" == '--help' ]; then
+cat <<EOF
+$THIS: Printing the user collection
+Usage:
+  $THIS
+
+Prints the current collection of the user. 
+EOF
+    exit 0
+fi
+
+check_atoken
+
+exec curl -s -X GET --get --data-urlencode "atoken=$ATOKEN" $BASE_URL/collection/
