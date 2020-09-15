@@ -21,4 +21,4 @@ fi
 MAIL="$1"
 PASSWD="$2"
 
-exec curl -X POST --data-urlencode "mail=$MAIL" --data-urlencode  "passwd=$PASSWD" $BASE_URL/user/register/
+exec curl -s -X POST --data-urlencode "mail=$MAIL" --data-urlencode  "passwd=$PASSWD" $BASE_URL/user/register/

@@ -1,0 +1,8 @@
+#!/bin/bash -e
+# Copyright 2020 Michael Pozhidaev <msp@luwrain.org>
+# The LUWRAIN Project, Licensed under the Apache License, Version 2.0
+
+CMD="$1"
+shift
+
+lwr-books-"$CMD" "$@" | lwr-json

@@ -1,0 +1,24 @@
+#!/bin/bash -e
+# Copyright 2020 Michael Pozhidaev <msp@luwrain.org>
+# The LUWRAIN Project, Licensed under the Apache License, Version 2.0
+
+. lwr-books-init
+
+if [ "$1" == '--help' ]; then
+cat <<EOF
+$THIS: Printing information about the book
+Usage:
+  $THIS BOOK_Id
+
+Prints the information about the book by its ID either in the repository (about the audiobook) or
+in the library (about the book text, ready for synthesizing the voice data). You should provide a bookID, which you can get 
+by running lwr-books-repo, lwr-books-collection or any other utility listing the books in various categories.
+EOF
+    exit 0
+fi
+
+[ -z "$1" ] && echo "$THIS: No book ID" >&2 && exit 1
+
+BOOK="$1"
+
+exec curl -s -X GET --get --data-urlencode "atoken=$ATOKEN" "$BASE_URL/books/$BOOK/"

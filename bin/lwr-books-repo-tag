@@ -1,0 +1,32 @@
+#!/bin/bash -e
+# Copyright 2020 Michael Pozhidaev <msp@luwrain.org>
+# The LUWRAIN Project, Licensed under the Apache License, Version 2.0
+
+. lwr-books-init
+
+if [ "$1" == '--help' ]; then
+cat <<EOF
+$THIS: Updating tags of the book in the repository
+Usage:
+  $THIS BOOK TAG VALUE
+
+EOF
+    exit 0
+fi
+
+[ -z "$1" ] && echo "$THIS: No book ID" >&2 && exit 1
+[ -z "$2" ] && echo "$THIS: No tag" >&2 && exit 1
+[ -z "$3" ] && echo "$THIS: No tag value" >&2 && exit 1
+
+BOOK="$1"
+TAG="$2"
+VALUE="$3"
+
+check_atoken
+
+exec curl -s -X GET --get\
+     --data-urlencode "atoken=$ATOKEN"\
+     --data-urlencode "book=$BOOK"\
+     --data-urlencode "tag=$TAG"\
+     --data-urlencode "value=$VALUE"\
+     $BASE_URL/repo/tag/
