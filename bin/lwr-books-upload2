@@ -1,0 +1,34 @@
+#!/bin/bash -e
+# Copyright 2020 Michael Pozhidaev <msp@luwrain.org>
+# The LUWRAIN Project, Licensed under the Apache License, Version 2.0
+
+. ./lwr-books-init
+
+if [ "$1" == '--help' ]; then
+cat <<EOF
+$THIS: Uploading a file
+Usage:
+  $THIS UPLOAD_ID FILE_NAME
+
+Sends a file to the server after performing some operation which implies files upload (e.g. task creation). All such operations 
+provide upload IDs to put them as a first argument to this script. The FILE_NAME must exist and must be exactly a file.
+EOF
+    exit 0
+fi
+
+[ -z "$1" ] && echo "$THIS: No upload ID" >&2 && exit 1
+[ -z "$2" ] && echo "$THIS: No name of the file to upload" >&2 && exit 1
+UPLOAD_ID="$1"
+FILE_NAME="$2"
+
+if ! [ -f "$FILE_NAME" ]; then
+    echo "$THIS: $FILE_NAME does not exist is not a file" >&2
+    exit 1
+fi
+
+if ! [ -r "$FILE_NAME" ]; then
+    echo "$THIS: $FILE_NAME is not readable" >&2
+    exit 1
+fi
+
+exec curl -F 'data=@$FILE_NAME' "$BASE_URL/upload/$UPLOAD_ID/"

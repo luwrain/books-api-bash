@@ -1,0 +1,22 @@
+#!/bin/bash -e
+# Copyright 2020 Michael Pozhidaev <msp@luwrain.org>
+# The LUWRAIN Project, Licensed under the Apache License, Version 2.0
+
+. lwr-books-init
+
+if [ "$1" == '--help' ]; then
+cat <<EOF
+$THIS: Getting a list of source documents
+Usage:
+  $THIS MAIL
+
+Use this command to get a list of all files uploaded on Luwrain Books 
+for the further creation of an audiobook. Use the lwr-books-source command with the particular ID of the book 
+to get detailed information about the particular book.
+EOF
+    exit 0
+fi
+
+check_atoken
+
+exec curl -s -X GET --get --data-urlencode "atoken=$ATOKEN" $BASE_URL/source/list/
