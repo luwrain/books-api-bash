@@ -1,0 +1,24 @@
+#!/bin/bash -e
+# Copyright 2020 Michael Pozhidaev <msp@luwrain.org>
+# The LUWRAIN Project, Licensed under the Apache License, Version 2.0
+
+. lwr-books-init
+
+if [ "$1" == '--help' ]; then
+cat <<EOF
+$THIS: Prints your books in the repository
+Usage:
+  $THIS (no arguments)
+
+This utility shows all books in the repository belonging to the
+current user. Nevertheless the command is named "ready", the output
+includes all entries, even if they are not initialized with the result
+of some task. Please use the "status" field which indicates whether
+the books has been initialized or not.
+EOF
+    exit 0
+fi
+
+check_atoken
+
+exec curl -s -X GET --get --data-urlencode "atoken=$ATOKEN" $BASE_URL/repo/list/

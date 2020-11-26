@@ -6,15 +6,15 @@
 
 if [ "$1" == '--help' ]; then
 cat <<EOF
-$THIS: Prints books in the repository
+$THIS: Printing the list of tasks
 Usage:
-  $THIS (no arguments)
+  $THIS
 
-This utility shows the all books in the repository owned by the current user.
+Prints the current tasks of the user. 
 EOF
     exit 0
 fi
 
 check_atoken
 
-exec curl -s -X GET --get --data-urlencode "atoken=$ATOKEN" $BASE_URL/repo/
+exec curl -s -X GET --get --data-urlencode "atoken=$ATOKEN" $BASE_URL/tasks/list/
