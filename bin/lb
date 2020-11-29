@@ -5,4 +5,8 @@
 CMD="$1"
 shift
 
-lwr-books-"$CMD" "$@" | lwr-json
+if [ "$1" == '--help' ]; then
+    lwr-books-"$CMD" "$@"
+else
+    lwr-books-"$CMD" "$@" | lwr-json
+	fi
