@@ -6,22 +6,35 @@
 
 if [ "$1" == '--help' ]; then
 cat <<EOF
-$THIS: Uploading a document file for further audiobook construction
+$THIS: Uploading a document file for further creation of an audiobook
 Usage:
-  $THIS FILE
+  $THIS FILE [TASK]
 
-The file can be either a document file or a ZIP-archive with a set of document files. On success 
-this utility returns the IDs of the source files saved in your account for further processing.
+The FILE can be either a document file or a ZIP-archive with a set of
+document files inside. On success this utility returns the IDs of the source
+files saved in your account for further processing.
+
+The TASK argument can be used, if a task and optionally a book must be
+created upon the uploaded files.  Specifying the RELEASE value wil
+result in full book creation with the deployment in the
+repository. Other values launches a task for each document file, but
+without releasing a book. The full list of valid values are ANNOTATED,
+PARTS, SPEAKED, COMPRESSED, RELEASE..
 EOF
     exit 0
 fi
 
 [ -z "$1" ] && echo "$THIS: No file to upload" >&2 && exit 1
 FILE="$1"
+TASK="$2"
 
 check_atoken
 
-RES="$(curl -s -X GET --get --data-urlencode "atoken=$ATOKEN" $BASE_URL/source/upload/)"
+if [ -z "$TASK" ]; then
+    RES="$(curl -s -X GET --get --data-urlencode "atoken=$ATOKEN" $BASE_URL/source/upload/)"
+else
+    RES="$(curl -s -X GET --get --data-urlencode "atoken=$ATOKEN" --data-urlencode "task=$TASK" $BASE_URL/source/upload/)"
+fi
 
 if ! echo "$RES" | fgrep -q '"type":"OK"'; then
     echo "$RES"
