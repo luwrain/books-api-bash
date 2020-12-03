@@ -1,0 +1,26 @@
+#!/bin/bash -e
+# Copyright 2020 Michael Pozhidaev <msp@luwrain.org>
+# The LUWRAIN Project, Licensed under the Apache License, Version 2.0
+
+. lwr-books-init
+
+if [ "$1" == '--help' ]; then
+cat <<EOF
+$THIS: Viewing the text of a source file
+Usage:
+  $THIS SOURCE [FILE]
+
+EOF
+    exit 0
+fi
+
+[ -z "$1" ] && echo "$THIS: No source ID" >&2 && exit 1
+SOURCE="$1"
+FILE="$2"
+
+check_atoken
+if [ -z "$FILE" ]; then
+    exec curl -s -X GET --get --data-urlencode "atoken=$ATOKEN" --data-urlencode "source=$SOURCE" $BASE_URL/source/text/
+else
+    exec curl -s -X GET --get --data-urlencode "atoken=$ATOKEN" --data-urlencode "source=$SOURCE" --data-urlencode "file=$FILE" $BASE_URL/source/text/
+fi

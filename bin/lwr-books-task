@@ -6,15 +6,16 @@
 
 if [ "$1" == '--help' ]; then
 cat <<EOF
-$THIS: Printing the list of tasks
+$THIS: Printing information about the task
 Usage:
-  $THIS
-
-Prints the tasks of the user. 
+  $THIS TASK
 EOF
     exit 0
 fi
 
+[ -z "$1" ] && echo "$THIS: No task ID" >&2 && exit 1
+TASK="$1"
+
 check_atoken
 
-exec curl -s -X GET --get --data-urlencode "atoken=$ATOKEN" $BASE_URL/tasks/list/
+exec curl -s -X GET --get --data-urlencode "atoken=$ATOKEN" --data-urlencode "task=$TASK" $BASE_URL/tasks/info/
