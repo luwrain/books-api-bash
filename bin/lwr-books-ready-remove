@@ -1,0 +1,21 @@
+#!/bin/bash -e
+# Copyright 2020 Michael Pozhidaev <msp@luwrain.org>
+# The LUWRAIN Project, Licensed under the Apache License, Version 2.0
+
+. lwr-books-init
+
+if [ "$1" == '--help' ]; then
+cat <<EOF
+$THIS: Removes a book from the repository
+Usage:
+  $THIS EOF
+    exit 0
+EOF
+fi
+
+BOOK="$1"
+[ -z "$BOOK" ] && echo "$THIS: No book ID" >&2 && exit 1
+
+check_atoken
+
+exec curl -s -X GET --get --data-urlencode "atoken=$ATOKEN" --data-urlencode "book=$BOOK" $BASE_URL/repo/remove/

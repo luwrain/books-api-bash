@@ -6,7 +6,7 @@
 
 if [ "$1" == '--help' ]; then
 cat <<EOF
-$THIS: Updating tags of the book in the repository
+$THIS: Updating tags of a book in the repository
 Usage:
   $THIS BOOK TAG VALUE
 
@@ -16,7 +16,6 @@ fi
 
 [ -z "$1" ] && echo "$THIS: No book ID" >&2 && exit 1
 [ -z "$2" ] && echo "$THIS: No tag" >&2 && exit 1
-[ -z "$3" ] && echo "$THIS: No tag value" >&2 && exit 1
 
 BOOK="$1"
 TAG="$2"
