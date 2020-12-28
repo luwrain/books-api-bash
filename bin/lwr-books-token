@@ -21,4 +21,13 @@ fi
 MAIL="$1"
 PASSWD="$2"
 
-exec curl -s -X POST --data-urlencode "mail=$MAIL" --data-urlencode  "passwd=$PASSWD" $BASE_URL/user/atoken/
+RES="$(curl -s -X POST --data-urlencode "mail=$MAIL" --data-urlencode  "passwd=$PASSWD" $BASE_URL/user/atoken/)"
+
+if ! echo "$RES" | fgrep -q '"type":"OK"'; then
+    echo "$RES"
+    exit 1
+fi
+
+RES="${RES##*token\":\"}"
+RES="${RES%%\"\}*}"
+echo $RES > "$ACCESS_TOKEN_FILE"
