@@ -17,4 +17,4 @@ fi
 
 check_atoken
 
-exec curl -s -X GET --get --data-urlencode "atoken=$ATOKEN" $BASE_URL/collection/
+exec curl -s -X GET --get --data-urlencode "atoken=$ATOKEN" $BASE_URL/collection/list/

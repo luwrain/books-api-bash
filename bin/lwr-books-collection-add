@@ -1,0 +1,22 @@
+#!/bin/bash -e
+# Copyright 2020 Michael Pozhidaev <msp@luwrain.org>
+# The LUWRAIN Project, Licensed under the Apache License, Version 2.0
+
+. lwr-books-init
+
+if [ "$1" == '--help' ]; then
+cat <<EOF
+$THIS: Adding a book to the user's collection
+Usage:
+  $THIS BOOK_ID [USER]
+EOF
+    exit 0
+fi
+
+[ -z "$1" ] && echo "THIS: No book ID" >&2 && exit 1
+BOOK="$1"
+USER="$2"
+
+check_atoken
+
+exec curl -s -X GET --get --data-urlencode "atoken=$ATOKEN" --data-urlencode "book=$BOOK" --data-urlencode "user=$USER" $BASE_URL/collection/add/
