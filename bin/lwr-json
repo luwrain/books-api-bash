@@ -1,5 +1,5 @@
 #!/bin/bash -e
-# Copyright 2020 Michael Pozhidaev <msp@luwrain.org>
+# Copyright 2020-2021 Michael Pozhidaev <msp@luwrain.org>
 # The LUWRAIN Project, Licensed under the Apache License, Version 2.0
 
 if [ "$1" == '--help' ]; then
