@@ -1,0 +1,21 @@
+#!/bin/bash -e
+# Copyright 2020 Michael Pozhidaev <msp@luwrain.org>
+# The LUWRAIN Project, Licensed under the Apache License, Version 2.0
+
+. lwr-books-init
+
+if [ "$1" == '--help' ]; then
+cat <<EOF
+$THIS: Printing the list of notes for the book
+Usage:
+  $THIS BOOK_ID
+EOF
+    exit 0
+fi
+
+[ -z "$1" ] && echo "$THIS: No book ID" >&2 && exit 1
+BOOK="$1"
+
+check_atoken
+
+exec curl -s -X GET --get --data-urlencode "atoken=$ATOKEN" --data-urlencode "book=$BOOK" $BASE_URL/notes/list/

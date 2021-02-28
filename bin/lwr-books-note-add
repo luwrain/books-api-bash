@@ -1,0 +1,30 @@
+#!/bin/bash -e
+# Copyright 2020 Michael Pozhidaev <msp@luwrain.org>
+# The LUWRAIN Project, Licensed under the Apache License, Version 2.0
+
+. lwr-books-init
+
+if [ "$1" == '--help' ]; then
+cat <<EOF
+$THIS: Adding a note or a bookmark
+Usage:
+  $THIS BOOK_ID TYPE COMMENT DOC POS
+EOF
+    exit 0
+fi
+
+[ -z "$1" ] && echo "$THIS: No book ID" >&2 && exit 1
+[ -z "$2" ] && echo "$THIS: No type" >&2 && exit 1
+[ -z "$4" ] && echo "$THIS: No doc" >&2 && exit 1
+[ -z "$5" ] && echo "$THIS: No pos" >&2 && exit 1
+BOOK="$1"
+TYPE="$2"
+COMMENT="$3"
+DOC="$4"
+POS="$5"
+
+check_atoken
+
+exec curl -s -X GET --get --data-urlencode "atoken=$ATOKEN" \
+--data-urlencode "book=$BOOK" --data-urlencode "type=$TYPE" --data-urlencode "comment=$COMMENT" --data-urlencode "doc=$DOC" --data-urlencode "pos=$POS" \
+$BASE_URL/notes/add/
